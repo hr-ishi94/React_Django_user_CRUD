@@ -60,7 +60,7 @@ def userList(request):
 @api_view(['GET'])
 def userDetails(request,pk):
     try:
-        user = User.objects.exclude(id=1).get(id=pk)
+        user = User.objects.get(id=pk)
         serializer=UserSerializer(user,many=False)
         return Response(serializer.data)
     except User.DoesNotExist:

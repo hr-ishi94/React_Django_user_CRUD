@@ -1,10 +1,10 @@
 import { BrowserRouter,Routes,Route } from "react-router-dom"
-import HomePage from "./pages/HomePage"
 import LoginPage from "./pages/LoginPage"
 import SignupPage from "./pages/SignupPage"
 import UserProfile from "./pages/UserProfile"
-import AdminPanelPage from "./pages/AdminPanelPage"
 import AddUser from "./admin/AddUser"
+import PrivateRouter from "./utils/PrivateRouter"
+import HomePage from "./pages/HomePage"
 
 function App() {
 
@@ -12,11 +12,12 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage title={'HOME PAGE'}/>}></Route>
+        <Route path="/" exact element={<PrivateRouter/>}></Route>
+        <Route exact path='/' element={<HomePage/>}>  </Route>
+        <Route exact path='/profile' element={<UserProfile/>}>  </Route>
         <Route Component={LoginPage} path='/login'/>
         <Route Component={SignupPage} path='/register'/>
-        <Route Component={UserProfile} path='/profile'/>
-        <Route path="/admin" element={<AdminPanelPage title={'ADMIN PAGE'}/>}></Route>=
+        {/* <Route Component={UserProfile} path='/profile'/> */}
         <Route Component={AddUser} path='/adduser'/>
 
 

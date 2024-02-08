@@ -1,18 +1,29 @@
 import React from 'react'
 import './Navbar.css'
+import { jwtDecode } from 'jwt-decode'
+import { getlocal } from '../helpers/auth'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 const Navbar = ({title}) => {
+  let {username}=jwtDecode(getlocal())
+  const navigate=useNavigate()
+
+  const logout=()=>{
+    localStorage.removeItem('authToken')
+    navigate('/login')
+  }
   return (
     <div>
       <nav class="navbar bg-secondary">
         
         <div class="container-fluid">
-          <h3 class="text-light m-2 ">USER CRUD PROJECT: {title} </h3>
+          <h3 class="text-light m-2 ">{title} </h3>
             <div class="d-flex">
-                <a class="navbar-brand">Home</a>
-                <a class="navbar-brand">My Profile</a>
-                <button className='bttn' >logout</button>
+                <a class="navbar-brand"><Link to="/">Home</Link></a>
+                <a class="navbar-brand"><Link to='/profile'>Profile</Link></a>
+                <a class="navbar-brand text-warning">Hello,{username}</a>
+                <button className='bttn' onClick={logout}>logout</button>
             </div>
         </div>
       </nav>  
