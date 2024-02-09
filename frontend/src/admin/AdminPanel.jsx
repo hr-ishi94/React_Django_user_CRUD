@@ -23,6 +23,10 @@ function AdminPanel() {
     const [password, setPassword] = useState('')
     const history = useNavigate()
     const { user_id } = useParams();
+
+    const [isopen, setIsopen] = useState(false)
+
+    
     
     const [singleUser, setUser] = useState({
         username: '',
@@ -53,7 +57,7 @@ function AdminPanel() {
             body: JSON.stringify({
                 username:data[0],
                 email:data[1],
-                password:data[2]
+                password:result.password
             })
         })
         if (response.status===400){
@@ -63,6 +67,7 @@ function AdminPanel() {
         }else{
             toast.success('User updated successfully');
             history('/');
+            setIsopen(false)
         }
 };
 
@@ -136,7 +141,7 @@ function AdminPanel() {
                                         <td>{user.id}</td>
                                         <td>{user.username}</td>
                                         <td>{user.email}</td>
-                                        <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target={`#exampleModal${index}`}>
+                                        <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target={`#exampleModal${index}`} onClick={()=>setIsopen(true)}>
                                             <i class="fas fa-edit"></i>
                                         </button>
                                             <p className='delete  mx-4' onClick={() => handleDelete(user.id)}> <i class="fa fa-trash" aria-hidden="true"></i></p></td>
@@ -147,7 +152,8 @@ function AdminPanel() {
                     </div>
                 </div >
             </div >
-            {userList.map((user,index) => (
+            
+            {isopen && userList.map((user,index) => (
             <div className="modal fade" id={`exampleModal${index}`} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <form className="add-user-form" onSubmit={(e)=>userUpdateForm(index,e)}>

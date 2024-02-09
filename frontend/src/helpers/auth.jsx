@@ -15,6 +15,7 @@ export default async function login(e){
         const data= await response.json()
         localStorage.setItem('authToken',JSON.stringify(data))
         toast.success('Login successful')
+        return data
     }
     else{
         toast.error('Invalid user credentials!')

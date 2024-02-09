@@ -17,7 +17,6 @@ function App() {
         <Route exact path='/profile' element={<UserProfile/>}>  </Route>
         <Route Component={LoginPage} path='/login'/>
         <Route Component={SignupPage} path='/register'/>
-        {/* <Route Component={UserProfile} path='/profile'/> */}
         <Route Component={AddUser} path='/adduser'/>
 
 

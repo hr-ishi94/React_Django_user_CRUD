@@ -5,6 +5,7 @@ import login, { getlocal } from '../helpers/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
 import { updateAuthToken, updateUser } from '../redux/AuthContext'
+import toast, { Toaster } from 'react-hot-toast'
 
 const Login = () => {
   const navigate= useNavigate()
@@ -14,28 +15,44 @@ const Login = () => {
   const dispatch= useDispatch()
 
   useEffect(()=>{
-    console.log(response);
+    // console.log(response);
     if (response) {
       navigate('/')
     }
   })
+
   const handleSubmit= async(e) =>{ 
     e.preventDefault()
-    const response= await login(e)
-    const decoded=jwtDecode(response.access)
-
-    dispatch(updateUser(decoded))
-    dispatch(updateAuthToken(response))
-    navigate('/')
+    if (e.target.email.value.trim()===""){
+      toast.error("Please enter email field!")
+    }
     
+    
+    try{
+      const response= await login(e)
+      const decoded=jwtDecode(response.access)
+      console.log(decoded)
+  
+      dispatch(updateUser(decoded))
+      dispatch(updateAuthToken(response))
+      console.log("successfull")
+      navigate('/')
+      
+      
+    }catch(err){
+      // toast.error(err)
+      console.log("Error occured:",err);
+    }
 
   }
 
   return (
-    <div className='logindiv '>
+    <div>
+    <Toaster position='top-left' reverseOrder='false' ></Toaster>
+    <div className='logindiv bg-white'>
 
       <div class="container p-5">
-        <h1>Login page</h1>
+        <h1 class="text-dark">Login page</h1>
         <br/>
         <form onSubmit={handleSubmit}>
         <div class="mb-3">
@@ -56,6 +73,8 @@ const Login = () => {
         <p>Don't have an account?</p>
         <h6><Link to="/register">Register Free here!</Link></h6>
       </div>
+    </div>
+
     </div>
   )
 }

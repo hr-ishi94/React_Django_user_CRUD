@@ -1,9 +1,10 @@
-.regform{
+.regfrm{
     width: 500px;
-    margin-top:30px;
+    padding-bottom: 20px;
+    margin-top:70px;
     margin-left: 500px;
     border-width:1px;
     border-style:solid;
     border-color:grey;
-    border-radius: 5px;
+    border-radius: 10px;
 }

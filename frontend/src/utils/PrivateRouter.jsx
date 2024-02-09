@@ -1,15 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { getlocal } from '../helpers/auth'
 import { jwtDecode } from 'jwt-decode'
 
 import AdminPanelPage from '../pages/AdminPanelPage'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
+import { useNavigate } from 'react-router-dom'
 
 
 
 const PrivateRouter = ({ children, ...rest }) => {
     const response=getlocal('authToken')
+    const navigate= useNavigate()
+
+    useEffect(()=>{
+        if(!response){
+            navigate("/login")
+        }
+    },[response,navigate])
+
     if (response){
         const decoded=jwtDecode(response)
         if (decoded.is_admin){
@@ -32,12 +41,12 @@ const PrivateRouter = ({ children, ...rest }) => {
 
         }
     else{
-
-        return (
-          <div>
-              <LoginPage/>
-          </div>
-        )
+        return  null
+        // return (
+        //   <div>
+        //       <LoginPage/>
+        //   </div>
+        // )
     }
 }
 

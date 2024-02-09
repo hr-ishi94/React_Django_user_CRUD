@@ -14,6 +14,8 @@ const Profile = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const [isopen,setIsopen]=useState(false)
+
   const [user, setUser] = useState({
       username: '',
       email: '',
@@ -50,6 +52,8 @@ const Profile = () => {
     formData.append('email', e.target.email.value);
     formData.append('password', e.target.password.value);
     formData.append('profile_img', e.target.profile_img.files[0]); 
+    formData.append('is_active',true)
+    
 
     try {
         const response = await fetch(`http://localhost:8000/api/user-update/${user_id}/`, {
@@ -63,6 +67,7 @@ const Profile = () => {
 
         toast.success('User updated successfully');
         history('/profile');
+        setIsopen(false)
     } catch (error) {
         console.error('Failed to update user: ', error);
         toast.error('Failed to update user');
@@ -89,7 +94,7 @@ const Profile = () => {
                                     />
                                     <h5>{user.username}</h5>
                                     <p>Full stack Developer</p>
-                                    <button type="button" className="btn"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <button type="button" className="btn"  data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>setIsopen(true)}>
                                         <i className="far fa-edit mb-5 btn btn-outline-dark"></i>
                                     </button>
                                 </div>
@@ -114,6 +119,8 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
+
+            {isopen && 
             
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -169,6 +176,7 @@ const Profile = () => {
             </div>
             </div>  
            
+            }
           
 
         </div>
